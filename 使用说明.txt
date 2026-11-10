@@ -1,0 +1,46 @@
+﻿炽小阳 QQ 机器人部署助手（AstrBot + NapCat QQ）
+================================================
+
+【使用方法】
+1. 确认本目录下已有以下文件：
+   - AstrBot_4.26.8_windows_amd64_setup.exe
+   - NapCat.Shell.Windows.Node.zip   （推荐，约 110MB，内置 QQNT，无需再下载 QQ）
+   - VC_redist.x64.exe
+   （可选备用）NapCat.Shell.Windows.OneKey.zip —— 需联网下载 QQ，当前 CDN 常 404
+2. 建议右键“以管理员身份运行”：一键部署.bat
+   卸载请运行：一键卸载.bat（需输入 YES 确认）
+3. 本助手为“可见安装 + 控制台详细进度”，不会静默安装：
+   - AstrBot / VC_redist 会弹出安装窗口；NapCat Node 包为解压部署
+   - 控制台同步输出 [步骤]/[进度]/[状态]/[详情]
+   - 完整日志保存在 logs\deploy_时间戳.log
+4. 按中文提示逐步完成：
+   环境检测 -> VC运行库 -> 安装 NapCat QQ -> 安装 AstrBot
+   -> OneBot 端口衔接 -> 扫码登录 QQ（建议小号）
+   -> 填写并校验模型 API -> 重启 AstrBot 加载配置 -> 完成
+   （全程无需登录 AstrBot 面板；某步失败会回退重试）
+
+【桌面产物】
+- AstrBot.lnk（AstrBot 桌面版）
+- 启动 NapCat QQ.bat（命令行扫码/启动 NapCat）
+
+【下次启动顺序】
+1. 双击桌面“启动 NapCat QQ.bat”登录 QQ
+2. 双击桌面 AstrBot
+
+【说明】
+- 初次安装不设置、不修改 AstrBot 密码；面板可按 AstrBot 自身默认方式进入
+- 若默认账号无法自动登录 API，部署助手会改为直接写配置文件完成衔接
+- 若检测到已有 AstrBot 数据目录（%USERPROFILE%\.astrbot）或相关安装目录，
+  会询问删除或保留原有配置；默认推荐删除后全新部署（直接回车即可）
+- OneBot 按官方示例优先端口 6199；占用则 6200 → 6201 → 其他空闲端口
+- AstrBot 作为反向 WebSocket 服务端（主机 0.0.0.0，不设置 Token）
+- NapCat 作为 WebSocket 客户端，地址格式必须为 ws://127.0.0.1:端口/ws（含 /ws）
+- 写入配置后会自动识别并重启 astrbot-desktop-tauri 等 AstrBot 进程以加载配置
+- NapCat 优先使用 Node 完整包，避免 OneKey 下载 QQ 时 HTTP 404；不使用 Framework
+- 安装目录默认：C:\ChiXiaoYangBot（建议纯英文路径）
+
+【自检 / 清理】
+- 一键卸载：一键卸载.bat（推荐；会停进程、删安装目录、桌面入口、.astrbot）
+- 无污染自检：powershell -ExecutionPolicy Bypass -File .\tools\SelfTest.ps1
+- 仅环境检测：powershell -ExecutionPolicy Bypass -File .\Deploy.ps1 -DryRun
+- 清理测试痕迹：powershell -ExecutionPolicy Bypass -File .\tools\Cleanup-TestEnv.ps1

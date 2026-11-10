@@ -1,0 +1,7 @@
+/logs/
+/runtime/
+/_test_node_extract/
+/_test_onekey_extract/
+/AstrBot_*_windows_amd64_setup.exe
+/VC_redist.x64.exe
+/NapCat.*.zip
